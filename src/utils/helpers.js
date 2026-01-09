@@ -33,6 +33,16 @@ export function getCategories(item) {
  */
 export function optimizeWikiImage(url) {
     if (!url) return url;
+
+    // Handle local paths
+    if (url.startsWith('/')) {
+        const baseUrl = import.meta.env.BASE_URL;
+        // If baseUrl is just '/', return url as is (it already starts with /)
+        if (baseUrl === '/') return url;
+        // Otherwise preped baseUrl (stripping leading slash from url to avoid double slash)
+        return baseUrl + url.substring(1);
+    }
+
     if (url.indexOf('upload.wikimedia.org') === -1) return url;
     if (url.indexOf('/thumb/') !== -1) return url;
 

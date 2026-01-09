@@ -98,7 +98,7 @@ const Map = forwardRef(({
         // Add Sources and Layers
         map.current.addSource('source-1883', {
             type: 'image',
-            url: '/images/fort-1883.jpg',
+            url: import.meta.env.BASE_URL === '/' ? '/images/fort-1883.jpg' : `${import.meta.env.BASE_URL}images/fort-1883.jpg`,
             coordinates: [[72.8228, 18.9435], [72.8492, 18.9435], [72.8492, 18.9235], [72.8228, 18.9235]]
         });
         map.current.addLayer({

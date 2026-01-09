@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "serve": "node index.js",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "node scripts/deploy_manual.js"
   },
   "dependencies": {
     "@radix-ui/react-collapsible": "^1.1.12",

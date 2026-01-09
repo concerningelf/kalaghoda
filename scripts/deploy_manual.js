@@ -68,6 +68,13 @@ function copyRecursiveSync(src, dest) {
 console.log('Copying files...');
 copyRecursiveSync(DIST_DIR, DEPLOY_DIR);
 
+// Create .nojekyll to prevent Jekyll processing
+const fd = fs.openSync(path.join(DEPLOY_DIR, '.nojekyll'), 'w');
+fs.closeSync(fd);
+
+// Copy index.html to 404.html for SPA fallback
+fs.copyFileSync(path.join(DIST_DIR, 'index.html'), path.join(DEPLOY_DIR, '404.html'));
+
 // 5. Git operations inside the deploy folder
 run('git init', DEPLOY_DIR);
 run('git checkout -b gh-pages', DEPLOY_DIR);

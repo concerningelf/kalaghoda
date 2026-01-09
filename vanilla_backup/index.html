@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset='utf-8' />
+    <title>Visual Audit: Kala Ghoda Heritage</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover' />
+
+    <!-- PWA / App Mode Settings -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Prevent caching of index.html -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <link rel="manifest" href="manifest.json">
+
+    <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+    <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Labrada:wght@400;500;600;700&family=Lato:wght@300;400;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+    <link rel="stylesheet" href="styles.css?v=4" />
+</head>
+
+<body>
+
+    <div id="loading-screen">
+        <div id="loading-content">
+            <div class="loader-brand">
+                <span class="loader-sub">Visual Audit</span>
+                <span class="loader-main">Kala Ghoda</span>
+            </div>
+            <div class="loading-bar-container">
+                <div id="loading-bar" class="loading-bar"></div>
+            </div>
+            <div id="loading-text">Loading Map...</div>
+        </div>
+    </div>
+
+    <div id="map"></div>
+    <div id="tooltip"></div>
+
+    <!-- Time Widget Backdrop (tap to close on mobile) -->
+    <div id="time-widget-backdrop"></div>
+
+    <div id="time-widget">
+        <div id="year-display">Present Day</div>
+        <div class="range-labels">
+            <span id="label-min">1850</span>
+            <span>Present</span>
+        </div>
+    </div>
+
+    <div id="toast">
+        <i class="fa-solid fa-info-circle"></i>
+        <span id="toast-msg">Welcome to Kala Ghoda</span>
+    </div>
+
+    <!-- Tutorial Overlay -->
+    <div id="tutorial-overlay">
+        <div class="tutorial-card">
+            <div class="tutorial-header">
+                <span class="tutorial-emoji">🗺️</span>
+                <span class="tutorial-sub">Welcome to</span>
+                <h2>Kala Ghoda</h2>
+                <span class="tutorial-subtitle">Heritage Map</span>
+            </div>
+            <div class="tutorial-content">
+                <div class="tutorial-tip">
+                    <span class="tip-icon"><i class="fa-solid fa-hand-pointer"></i></span>
+                    <div class="tip-text">
+                        <strong>Tap markers</strong> to explore heritage sites
+                    </div>
+                </div>
+                <div class="tutorial-tip">
+                    <span class="tip-icon"><i class="fa-solid fa-filter"></i></span>
+                    <div class="tip-text">
+                        <strong>Tap chips</strong> to show/hide layer types
+                    </div>
+                </div>
+                <div class="tutorial-tip">
+                    <span class="tip-icon"><i class="fa-solid fa-hand"></i></span>
+                    <div class="tip-text">
+                        <strong>Long-press chips</strong> for solo mode
+                    </div>
+                </div>
+                <div class="tutorial-tip">
+                    <span class="tip-icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+                    <div class="tip-text">
+                        <strong>Time slider</strong> to filter by year built
+                    </div>
+                </div>
+            </div>
+            <button id="tutorial-dismiss" class="tutorial-btn">Got it, let's explore</button>
+        </div>
+    </div>
+
+    <div id="header" class="fade-on-move">
+        <a href="about.html" class="info-icon-btn" title="About This Project">
+            <i class="fa-solid fa-circle-info"></i>
+        </a>
+
+        <h1>
+            <span class="title-sub">Visual Audit</span>
+            <span class="title-main">Kala Ghoda</span>
+        </h1>
+
+        <div id="mobile-title">
+            <span class="m-sub">Visual Audit</span>
+            <span class="m-main">Kala Ghoda</span>
+        </div>
+
+        <div id="search-container" class="fade-on-move">
+            <!-- Desktop Search Bar -->
+            <div class="search-wrapper">
+                <i class="fa-solid fa-search search-icon"></i>
+                <input type="text" id="search-input-desktop" class="search-input-field"
+                    placeholder="Search buildings, styles..." autocomplete="off">
+            </div>
+
+            <!-- Mobile Two-Pill Layout -->
+            <div class="mobile-header-pills">
+                <!-- Brand Pill -->
+                <a href="about.html" class="brand-pill">
+                    <div class="brand-text">
+                        <span class="brand-sub">Visual Audit</span>
+                        <span class="brand-main">Kala Ghoda</span>
+                    </div>
+                    <div class="brand-info-btn">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </div>
+                </a>
+
+                <!-- Search Pill -->
+                <div class="search-pill">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Search..." autocomplete="off">
+                </div>
+            </div>
+
+            <div id="search-results"></div>
+        </div>
+
+        <!-- Mobile Chip Filter Bar -->
+        <div class="chip-filter-wrapper">
+            <div id="chip-filter-bar" class="fade-on-move">
+                <!-- Chips will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <div id="console">
+            <div id="console-handle"></div>
+            <div id="console-close-btn" class="mobile-close-btn">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+
+            <div id="layers-header">
+                <span><i class="fa-solid fa-layer-group"></i> Filter Layers</span>
+                <i class="fa-solid fa-chevron-down" id="layers-arrow"></i>
+            </div>
+
+            <div id="layers-content" class="collapsed">
+            </div>
+        </div>
+    </div>
+
+    <div id="vertical-controls" class="fade-on-move">
+        <button class="v-control-btn" id="zoom-in-btn"><i class="fa-solid fa-plus"></i></button>
+        <button class="v-control-btn" id="zoom-out-btn"><i class="fa-solid fa-minus"></i></button>
+        <button class="v-control-btn" id="compass-btn" data-msg="Orientation Reset"><i class="fa-solid fa-arrow-up"></i>
+            <span>Reset North</span></button>
+        <button class="v-control-btn" id="time-travel-btn" data-msg="Time Slider Active"><i
+                class="fa-solid fa-clock-rotate-left"></i> <span>Time Travel</span></button>
+        <button class="v-control-btn" id="map-1883-btn" data-msg="1883 Map Enabled"><i
+                class="fa-solid fa-map-location-dot"></i> <span>1883 Map</span></button>
+        <button class="v-control-btn" id="view-3d-btn" data-msg="3D View Toggled"><i class="fa-solid fa-cube"></i>
+            <span>3D View</span></button>
+        <button class="v-control-btn" id="reset-view-btn" data-msg="Camera Reset"><i class="fa-solid fa-compress"></i>
+            <span>Reset View</span></button>
+        <button class="v-control-btn" id="locate-btn" data-msg="Locating..."><i
+                class="fa-solid fa-location-crosshairs"></i> <span>My Location</span></button>
+    </div>
+
+    <div id="side-panel">
+        <button id="panel-close-btn" class="mobile-close-btn">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div id="panel-handle"></div>
+
+        <div id="panel-scroll-area">
+            <div id="panel-inner"></div>
+        </div>
+    </div>
+
+    <div id="bottom-nav">
+        <div class="nav-item active" id="nav-explore">
+            <i class="fa-solid fa-map"></i>
+            <span>Explore</span>
+        </div>
+        <div class="nav-item" id="nav-layers">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>Layers</span>
+        </div>
+        <div class="nav-item" id="nav-time">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span>Time</span>
+        </div>
+        <div class="nav-item" id="nav-about">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>About</span>
+        </div>
+    </div>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // Register the "No Cache" service worker to clean up any old caches
+                navigator.serviceWorker.register('./sw.js').then(registration => {
+                    console.log('Service Worker Registered (Network Only Mode)');
+                }).catch(err => {
+                    console.log('Service Worker registration failed', err);
+                });
+            });
+        }
+    </script>
+    <script src="script.js?v=4"></script>
+</body>
+
+</html>

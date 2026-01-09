@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Kala Ghoda Visual Audit</title>
+
+    <!-- Fonts & Icons (Same as Main Map) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Labrada:wght@400;500;600;700&family=Lato:wght@300;400;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+    <!-- Link to your existing CSS (we will add a few specific styles for this page below) -->
+    <link rel="stylesheet" href="styles.css?v=4" />
+
+    <style>
+        /* --- PAGE SPECIFIC STYLES --- */
+        /* These override or add to styles.css for the text layout */
+
+        body {
+            overflow-y: auto;
+            /* Allow scrolling for this page */
+            background: #f9f9f9;
+        }
+
+        .about-container {
+            max-width: 800px;
+            margin: 60px auto 100px auto;
+            background: #fff;
+            padding: 60px;
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        /* Navigation Button */
+        .back-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 100;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #fff;
+            padding: 10px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            color: var(--text-main);
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Typography */
+        h1.page-title {
+            font-family: 'Labrada', serif;
+            font-weight: 700;
+            font-size: 42px;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            line-height: 1.1;
+        }
+
+        h2.page-subtitle {
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gold-text);
+            font-weight: 900;
+            margin-top: 0;
+            margin-bottom: 50px;
+        }
+
+        h3 {
+            font-family: 'Labrada', serif;
+            font-weight: 600;
+            font-size: 24px;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            color: var(--text-main);
+            border-left: 3px solid var(--accent-nav);
+            padding-left: 15px;
+        }
+
+        p {
+            font-family: 'Lato', sans-serif;
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-sub);
+            margin-bottom: 20px;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: #f8f8f8;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            color: var(--accent-nav);
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .feature-desc {
+            font-size: 13px;
+            color: #666;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .audit-meta {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+            font-size: 12px;
+            color: #999;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        @media (max-width: 768px) {
+            .about-container {
+                margin: 0;
+                padding: 30px;
+                border-radius: 0;
+                border: none;
+                min-height: 100vh;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .back-btn {
+                position: sticky;
+                top: 20px;
+                margin-bottom: 20px;
+                width: fit-content;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="index.html" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i> Return to Map
+    </a>
+
+    <div class="about-container">
+        <h1 class="page-title">Visual Audit: Kala Ghoda</h1>
+        <h2 class="page-subtitle">A Personal Archive of Micro-Heritage</h2>
+
+        <p>
+            Kala Ghoda is more than just a heritage precinct; it is a living museum of Mumbai's urban soul. Named after
+            the "Black Horse" statue that once stood here, this crescent-shaped district holds one of the dense
+            concentrations of history in the city.
+        </p>
+
+        <p>
+            <strong>But history isn't just in the grand monuments.</strong>
+        </p>
+
+        <p>
+            This project was born out of a deep love for urban exploration—the desire to walk a city not just to
+            traverse it, but to understand it. My goal is to slow down and document the <em>micro-heritage</em> that
+            most people walk past every day without noticing.
+        </p>
+
+        <h3>What We Document</h3>
+        <p>
+            While the guidebooks show you the museums and libraries, this visual audit looks closer. It captures the
+            invisible details that give the city its texture:
+        </p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="feature-icon fa-solid fa-font"></i>
+                <div class="feature-title">The Art of Lettering</div>
+                <p class="feature-desc">From Art Deco reliefs to hand-painted street signs, Mumbai has a rich tradition
+                    of architectural typography that tells the story of the buildings' identity.</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="feature-icon fa-solid fa-magnifying-glass-location"></i>
+                <div class="feature-title">Hidden Details</div>
+                <p class="feature-desc">Weather vanes, date plaques, carved monograms, and vernacular stone
+                    railings—the small design choices that reveal the hands of the original craftsmen.</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="feature-icon fa-solid fa-road"></i>
+                <div class="feature-title">Urban Texture</div>
+                <p class="feature-desc">The ground beneath our feet, from 150-year-old basalt paving stones to the tram
+                    tracks that once moved the city, recently rediscovered.</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="feature-icon fa-solid fa-ghost"></i>
+                <div class="feature-title">Ghost Sites</div>
+                <p class="feature-desc">Mapping places that no longer exist, like the original Fort walls (1862) or the
+                    1883 shoreline, to see how the city has grown over time.</p>
+            </div>
+        </div>
+
+        <p>
+            This map is an invitation to explore deeply. To look up at a facade, to notice the curve of a bracket, or
+            the serif on a street name. It is a testament to how much heritage Mumbai holds in every square meter, if
+            only we take the time to see it.
+        </p>
+
+        <div class="audit-meta">
+            <span><strong>Created with love for Mumbai</strong></span>
+            <span>2025</span>
+        </div>
+    </div>
+
+</body>
+
+</html>

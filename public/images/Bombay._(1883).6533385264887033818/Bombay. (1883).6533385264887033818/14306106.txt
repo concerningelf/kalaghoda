@@ -1,0 +1,37 @@
+Author	France. Ministère des travaux publics. Administration des routes
+Author	France. Direction des cartes, plans et archives et de la statistique graphique
+Author	École nationale des ponts et chaussées (France)
+Date	1883
+Short Title	Bombay. (1883).
+Publisher	Imprimerie nationale (France)
+Publisher Location	Paris
+Type	Atlas Map
+Type	Chart Map
+Obj Height cm	27
+Obj Width cm	46
+Scale 1	20,000
+Note	Map showing the port of Bombay [Mumbai], India, in 1886. Features topography, railways, streets, bridges, drainage, docks, islands and soundings, with depths given in meters. Relief shown with hachures. Includes a bar scale and compass rose, with north oriented toward right of sheet. Descriptive text throughout. Lithograph in black, white and blue. With inset map: [Bombay and vicinity]. Together, maps are 27 x 46 cm, on sheet 33 x 50 cm. Bookplate title pasted to verso: Pl. XVI. Bombay. Appears in Quatrième livraison.
+City	Mumbai (India)
+Region	Arabian Sea
+Subject	Nautical Charts
+Full Title	Bombay. (1883). 4e Série. Pl. XVI. Ministère des Travaux Publics. Ecole des Ponts et Chaussées. Lith. A. Simon, 13, R. du Val-de-Grâce. Paris.
+List No	14306.106
+Page No	XVI
+Series No	106
+Engraver or Printer	Simon, A.
+Publication Author	France. Ministère des travaux publics. Administration des routes
+Publication Author	France. Direction des cartes, plans et archives et de la statistique graphique
+Pub Date	1890
+Pub Title	Atlas des ports étrangers. Ministère des Travaux Publics. Direction des Cartes, Plans et Archives et de la Statistique Graphique. Paris. Imprimerie Nationale. MDCCCLXXXIV.
+Pub Note	Atlas des ports étrangers, published in Paris by the French Ministère des travaux publics, Administration des routes [= Ministry of Public Works, Road Administration], 1890. Title translates to: Atlas of foreign ports. Collation: [VIII] pages, XXV plates, [8] pages, XXIV plates, [6] pages, XXV plates, [6] pages, XXIV plates, [6] pages, XXIII plates, [6] pages, XIII plates. Comprised of Première through Sixième deliveries (i.e., first-sixth) dated 1884, 1886, 1887, 1888, 1889 and 1890. Each delivery introduced by a half title page, full title page and table of contents; first and second deliveries also include introductory text. Volume contains 134 lithographed plates, in color, with 175 maps and 11 views. Maps show ports around the world, featuring topography, vegetation, parks, railways, streets, bridges, canals, drainage, islands, docks and soundings, with depths given in meters. Relief shown with hachures. Some maps provide insets showing the greater vicinity of the area. Certain ports appear in multiple deliveries, therefore showing port developments over time, such as Anvers [Antwerp], depicted in both 1883 and 1886. Certain maps in the second delivery also utilize data visualization to compare imports to France from other nations. All together, atlas presents a valuable survey of international ports from the late-nineteenth century.
+Pub List No	14306.000
+Pub Type	Thematic Atlas
+Pub Type	Chart Atlas
+Pub Maps	134
+Pub Height cm	34
+Pub Width cm	28
+Image No	14306106.jp2
+Download 1	<a href=https://www.davidrumsey.com/rumsey/download.pl?image=/195/14306106.jp2 target=_blank>Full Image Download in JP2 Format</a>
+Download 2	<a href=https://www.extensis.com/support/geoviewer-9 target=_blank >GeoViewer for JP2 and SID files</a>
+Authors	France. Ministère des travaux publics. Administration des routes; France. Direction des cartes, plans et archives et de la statistique graphique; École nationale des ponts et chaussées (France)
+AI-Generated Summary	This map, titled "Bombay (1883)," is part of the "Atlas des ports étrangers" published by the French Ministère des Travaux Publics in 1890. It was produced by the Administration des routes and the Direction des cartes, plans et archives et de la statistique graphique in collaboration with the École nationale des ponts et chaussées. The lithograph was printed by A. Simon in Paris. The map measures 27 x 46 cm and is part of a larger thematic atlas that includes 134 lithographed plates depicting ports worldwide.<br><br>The map specifically represents the port of Bombay (now Mumbai), India, in 1883. It provides a detailed view of the city and its surroundings, highlighting essential features such as topography, railways, streets, bridges, drainage systems, docks, islands, and ocean soundings. Depths are indicated in meters, and relief is shown using hachures, which are lines used on maps to denote gradient and relief.<br><br>A notable feature is the inset map of Bombay and its vicinity, providing a broader geographical context. The main map is oriented with north to the right, as indicated by the compass rose. The bar scale assists in understanding distances on the map.<br><br>In terms of composition, the map uses a monochromatic palette primarily in black, white, and blue, common for lithographs of the period. This color scheme helps to differentiate between land and water, with water bodies like the Ocean Indien (Indian Ocean) and Back Bay clearly marked. Various districts and areas within Bombay are labeled, including Fort George, Mazagon, and Byculla, reflecting the city's colonial administrative divisions.<br><br>Culturally and historically, this map captures Bombay during the British colonial era, a time when the city was rapidly developing as a major commercial and naval hub. The presence of docks and railway lines underscores Bombay's significance in trade and transportation. The detailed depiction of infrastructure, such as streets and bridges, indicates the urban planning and modernization efforts of the period.<br><br>Additionally, the map provides insights into the geographical layout and urban expansion of Bombay in the late 19th century. The inclusion of soundings and depths highlights the importance of maritime activities and the city's strategic location along the Arabian Sea.<br><br>Overall, this map is an essential historical document that showcases Bombay's urban and economic landscape during a transformative period. It reflects the city's role as a prominent port and its development under colonial rule, providing valuable information for historical and geographical studies.<br><br>The map appears as Plate XVI in the atlas and is listed under "List No" 14306.106, part of "Pub List No" 14306.000.

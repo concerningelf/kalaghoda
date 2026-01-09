@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+    <title>Visual Audit: Kala Ghoda Heritage</title>
+
+    <!-- PWA / App Mode Settings -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Labrada:wght@400;500;600;700&family=Lato:wght@300;400;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+    <!-- Google tag (gtag.js) if any -->
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <!-- Loading Screen (remains until React mounts) -->
+    <div id="loading-screen">
+        <div id="loading-content">
+            <div class="loader-brand">
+                <span class="loader-sub">Visual Audit</span>
+                <span class="loader-main">Kala Ghoda</span>
+            </div>
+            <div class="loading-bar-container">
+                <div id="loading-bar" class="loading-bar"></div>
+            </div>
+            <div id="loading-text">Loading Map...</div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>

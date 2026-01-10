@@ -206,31 +206,33 @@ const Header = ({
                                 initial="hidden"
                                 animate="visible"
                                 exit="exit"
-                                className="absolute top-[calc(100%+16px)] left-0 right-0 z-[1000] rounded-2xl border border-border/80 bg-white dark:bg-background text-popover-foreground shadow-2xl outline-none mt-0 overflow-hidden"
+                                className="absolute top-[calc(100%+16px)] left-0 right-0 z-[1000] px-5"
                             >
-                                <CommandList className="max-h-[60vh] overflow-y-auto p-0">
-                                    {searchResults.length === 0 ? (
-                                        <CommandEmpty className="py-10 text-center text-sm opacity-50 flex flex-col items-center gap-3">
-                                            <Search className="h-5 w-5 opacity-20" />
-                                            <span>No buildings found for "{searchTerm}"</span>
-                                        </CommandEmpty>
-                                    ) : (
-                                        <CommandGroup className="p-2">
-                                            {searchResults.map(record => (
-                                                <CommandItem
-                                                    key={record.id}
-                                                    onSelect={() => handleResultClick(record)}
-                                                    className="search-result-item flex flex-col items-start py-4 px-5 rounded-xl cursor-pointer transition-colors m-1 data-[selected='true']:bg-accent dark:data-[selected='true']:bg-black/20"
-                                                >
-                                                    <div className="result-title font-bold text-[15px]">{record.title}</div>
-                                                    <div className="result-meta text-[11px] uppercase tracking-widest opacity-60 font-medium mt-1">
-                                                        {record.year} • {getCategories(record).join(' · ')}
-                                                    </div>
-                                                </CommandItem>
-                                            ))}
-                                        </CommandGroup>
-                                    )}
-                                </CommandList>
+                                <div className="rounded-2xl border border-border/80 bg-white dark:bg-background text-popover-foreground shadow-2xl outline-none overflow-hidden">
+                                    <CommandList className="max-h-[60vh] overflow-y-auto p-0">
+                                        {searchResults.length === 0 ? (
+                                            <CommandEmpty className="py-10 text-center text-sm opacity-50 flex flex-col items-center gap-3">
+                                                <Search className="h-5 w-5 opacity-20" />
+                                                <span>No buildings found for "{searchTerm}"</span>
+                                            </CommandEmpty>
+                                        ) : (
+                                            <CommandGroup className="p-2">
+                                                {searchResults.map(record => (
+                                                    <CommandItem
+                                                        key={record.id}
+                                                        onSelect={() => handleResultClick(record)}
+                                                        className="search-result-item flex flex-col items-start py-4 px-5 rounded-xl cursor-pointer transition-colors m-1 data-[selected='true']:bg-accent dark:data-[selected='true']:bg-black/20"
+                                                    >
+                                                        <div className="result-title font-bold text-[15px]">{record.title}</div>
+                                                        <div className="result-meta text-[11px] uppercase tracking-widest opacity-60 font-medium mt-1">
+                                                            {record.year} • {getCategories(record).join(' · ')}
+                                                        </div>
+                                                    </CommandItem>
+                                                ))}
+                                            </CommandGroup>
+                                        )}
+                                    </CommandList>
+                                </div>
                             </motion.div>
                         )}
                     </AnimatePresence>

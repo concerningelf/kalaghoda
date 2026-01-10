@@ -1,11 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Input } from "@/components/ui/input"
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from "@/components/ui/command"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import CategoryFilters from './CategoryFilters';
 import { CHAPTERS } from '../data/config';
 import { getCategories } from '../utils/helpers';
+import { Search } from 'lucide-react';
 
 const Header = ({
     onSelectRecord,
@@ -135,88 +143,98 @@ const Header = ({
                 <span className="m-main">Kala Ghoda</span>
             </div>
 
-            <div id="search-container" className={`fade-on-move ${isSearchExpanded ? 'expanded' : ''}`}>
-                {/* Desktop Search Bar */}
-                <div className="search-wrapper">
-                    <i className="fa-solid fa-search search-icon"></i>
-                    <Input
-                        type="text"
-                        id="search-input-desktop"
-                        className="search-input-field pl-10"
-                        placeholder="Search buildings, styles..."
-                        value={searchTerm}
-                        onChange={handleSearch}
-                        onFocus={() => setIsSearchExpanded(true)}
-                        onBlur={() => setTimeout(() => setIsSearchExpanded(false), 200)}
-                        autoComplete="off"
-                    />
-                </div>
+            <div id="search-container" className={cn("fade-on-move", isSearchExpanded && "expanded")}>
+                <Command className="bg-transparent overflow-visible" shouldFilter={false}>
+                    {/* Desktop Search Bar */}
+                    <div className="hidden md:block">
+                        <div className="rounded-full border border-border/60 bg-muted/40 hover:bg-muted/60 transition-colors px-1">
+                            <CommandInput
+                                placeholder="Search buildings, styles..."
+                                value={searchTerm}
+                                onValueChange={(v) => handleSearch({ target: { value: v } })}
+                                onFocus={() => setIsSearchExpanded(true)}
+                                onBlur={() => setTimeout(() => setIsSearchExpanded(false), 200)}
+                                className="h-10 border-none focus-visible:ring-0 placeholder:text-neutral-500"
+                            />
+                        </div>
+                    </div>
 
-                {/* Mobile Two-Pill Layout */}
-                <div className="mobile-header-pills">
+                    {/* Mobile Two-Pill Layout */}
+                    <div className="mobile-header-pills flex md:hidden items-center gap-2 w-full px-5">
+                        <AnimatePresence mode="popLayout">
+                            {!isSearchExpanded && (
+                                <motion.a
+                                    href="about.html"
+                                    className="h-[50px] flex items-center gap-3 bg-background border border-border/80 shadow-lg px-4 shrink-0 rounded-[24px]"
+                                    initial={{ width: 0, opacity: 0, paddingLeft: 0, paddingRight: 0, borderWidth: 0 }}
+                                    animate={{ width: "auto", opacity: 1, paddingLeft: 16, paddingRight: 16, borderWidth: "1px" }}
+                                    exit={{ width: 0, opacity: 0, paddingLeft: 0, paddingRight: 0, borderWidth: 0 }}
+                                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                                    style={{ overflow: "hidden" }}
+                                >
+                                    <div className="flex flex-col justify-center gap-[1px]">
+                                        <span className="font-['Lato'] text-[9px] font-extrabold text-[#666] uppercase tracking-[2px] leading-none">Visual Audit</span>
+                                        <span className="font-['Labrada'] text-[19px] font-bold text-[#bfa05a] leading-none">Kala Ghoda</span>
+                                    </div>
+                                    <div className="w-[28px] h-[28px] bg-muted/50 rounded-full flex items-center justify-center text-muted-foreground text-[14px] shrink-0">
+                                        <i className="fa-solid fa-circle-info"></i>
+                                    </div>
+                                </motion.a>
+                            )}
+                        </AnimatePresence>
+
+                        <motion.div
+                            layout
+                            className="flex-1 rounded-[24px] border border-border/80 bg-background shadow-lg h-[50px] flex items-center overflow-hidden"
+                            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                        >
+                            <CommandInput
+                                placeholder="Search..."
+                                value={searchTerm}
+                                onValueChange={(v) => handleSearch({ target: { value: v } })}
+                                onFocus={() => setIsSearchExpanded(true)}
+                                onBlur={() => setTimeout(() => setIsSearchExpanded(false), 200)}
+                                className="border-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 h-full text-[16px] bg-transparent placeholder:text-neutral-400 flex-1 min-w-0"
+                            />
+                        </motion.div>
+                    </div>
+
                     <AnimatePresence>
-                        {!isSearchExpanded && (
-                            <motion.a
-                                href="about.html"
-                                className="brand-pill"
-                                initial={{ width: 0, opacity: 0, paddingLeft: 0, paddingRight: 0, marginRight: 0, borderWidth: 0 }}
-                                animate={{ width: "auto", opacity: 1, paddingLeft: 20, paddingRight: 20, marginRight: 10, borderWidth: "1px" }}
-                                exit={{ width: 0, opacity: 0, paddingLeft: 0, paddingRight: 0, marginRight: 0, borderWidth: 0 }}
-                                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                style={{ overflow: "hidden" }}
+                        {isSearchExpanded && searchTerm.length > 0 && (
+                            <motion.div
+                                variants={containerVariants}
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
+                                className="absolute top-[calc(100%+16px)] left-0 right-0 z-[1000] rounded-2xl border border-border/80 bg-white dark:bg-background text-popover-foreground shadow-2xl outline-none mt-0 overflow-hidden"
                             >
-                                <div className="brand-text">
-                                    <span className="brand-sub">Visual Audit</span>
-                                    <span className="brand-main">Kala Ghoda</span>
-                                </div>
-                                <div className="brand-info-btn">
-                                    <i className="fa-solid fa-circle-info"></i>
-                                </div>
-                            </motion.a>
+                                <CommandList className="max-h-[60vh] overflow-y-auto p-0">
+                                    {searchResults.length === 0 ? (
+                                        <CommandEmpty className="py-10 text-center text-sm opacity-50 flex flex-col items-center gap-3">
+                                            <Search className="h-5 w-5 opacity-20" />
+                                            <span>No buildings found for "{searchTerm}"</span>
+                                        </CommandEmpty>
+                                    ) : (
+                                        <CommandGroup className="p-2">
+                                            {searchResults.map(record => (
+                                                <CommandItem
+                                                    key={record.id}
+                                                    onSelect={() => handleResultClick(record)}
+                                                    className="search-result-item flex flex-col items-start py-4 px-5 rounded-xl cursor-pointer transition-colors m-1 data-[selected='true']:bg-accent dark:data-[selected='true']:bg-black/20"
+                                                >
+                                                    <div className="result-title font-bold text-[15px]">{record.title}</div>
+                                                    <div className="result-meta text-[11px] uppercase tracking-widest opacity-60 font-medium mt-1">
+                                                        {record.year} • {getCategories(record).join(' · ')}
+                                                    </div>
+                                                </CommandItem>
+                                            ))}
+                                        </CommandGroup>
+                                    )}
+                                </CommandList>
+                            </motion.div>
                         )}
                     </AnimatePresence>
-
-                    <motion.div
-                        className="search-pill"
-                    >
-                        <i className="fa-solid fa-search"></i>
-                        <Input
-                            type="text"
-                            id="search-input"
-                            className="border-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 h-full p-0 text-base bg-transparent placeholder:text-neutral-400"
-                            placeholder="Search..."
-                            value={searchTerm}
-                            onChange={handleSearch}
-                            onFocus={() => setIsSearchExpanded(true)}
-                            onBlur={() => setTimeout(() => setIsSearchExpanded(false), 200)}
-                            autoComplete="off"
-                        />
-                    </motion.div>
-                </div>
-
-                <AnimatePresence>
-                    {searchResults.length > 0 && (
-                        <motion.div
-                            id="search-results"
-                            variants={containerVariants}
-                            initial="hidden"
-                            animate="visible"
-                            exit="exit"
-                        >
-                            {searchResults.map(record => (
-                                <motion.div
-                                    key={record.id}
-                                    className="search-result-item"
-                                    onClick={() => handleResultClick(record)}
-                                    variants={itemVariants}
-                                >
-                                    <div className="result-title">{record.title}</div>
-                                    <div className="result-meta">{record.year} • {getCategories(record).join(' · ')}</div>
-                                </motion.div>
-                            ))}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                </Command>
             </div>
 
             <CategoryFilters

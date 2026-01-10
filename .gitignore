@@ -1,7 +1,8 @@
 node_modules/
 map/*
 !map/.keep
-config.js
+# secrets.js
+src/data/secrets.js
 
 # Logs
 .DS_Store

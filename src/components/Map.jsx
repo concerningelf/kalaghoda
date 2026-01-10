@@ -6,7 +6,7 @@ import { getCategories, parseYear } from '../utils/helpers';
 import { useTheme } from './theme-provider';
 
 const CLUSTER_ZOOM_THRESHOLD = 16;
-const DARK_STYLE = "https://api.maptiler.com/maps/019b9cbc-2b55-70b4-b89b-4b390bcfb112/style.json?key=f0f0aibL2C05fTzSrqHq";
+
 
 const Map = forwardRef(({
     selectedRecord,
@@ -22,6 +22,8 @@ const Map = forwardRef(({
     const map = useRef(null);
     const markersRef = useRef({});
     const clusterHandlersRef = useRef({ click: null, mouseenter: null, mouseleave: null });
+    const layerHandlersRef = useRef({ unclusteredMouseEnter: null, unclusteredMouseLeave: null });
+    const tooltipRef = useRef(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [floatingPoint, setFloatingPoint] = useState(null);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -212,6 +214,10 @@ const Map = forwardRef(({
             layout: { visibility: is1883Mode ? 'none' : 'visible' }
         });
 
+        // Dynamically detect font stack from style to match user's MapTiler design
+        const loadedStyle = map.current.getStyle();
+        const detectedFont = loadedStyle?.layers?.find(l => l.layout?.['text-font'])?.layout?.['text-font'] || ['Lato Semi Bold', 'Noto Sans Semi Bold'];
+
         map.current.addLayer({
             id: 'cluster-count',
             type: 'symbol',
@@ -220,7 +226,7 @@ const Map = forwardRef(({
             maxzoom: CLUSTER_ZOOM_THRESHOLD,
             layout: {
                 'text-field': '{point_count_abbreviated}',
-                'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+                'text-font': detectedFont,
                 'text-size': 12,
                 visibility: is1883Mode ? 'none' : 'visible'
             },
@@ -259,6 +265,36 @@ const Map = forwardRef(({
         map.current.on('mouseenter', 'clusters', handleClusterMouseEnter);
         map.current.on('mouseleave', 'clusters', handleClusterMouseLeave);
 
+        // Hover handlers for unclustered points
+        if (layerHandlersRef.current.unclusteredMouseEnter) {
+            map.current.off('mouseenter', 'unclustered-point', layerHandlersRef.current.unclusteredMouseEnter);
+        }
+        if (layerHandlersRef.current.unclusteredMouseLeave) {
+            map.current.off('mouseleave', 'unclustered-point', layerHandlersRef.current.unclusteredMouseLeave);
+        }
+
+        const handleUnclusteredMouseEnter = (e) => {
+            if (window.innerWidth <= 768) return;
+            map.current.getCanvas().style.cursor = 'pointer';
+            if (tooltipRef.current) {
+                tooltipRef.current.innerText = e.features[0].properties.title;
+                tooltipRef.current.style.opacity = '1';
+                const coordinates = e.features[0].geometry.coordinates.slice();
+                const point = map.current.project(coordinates);
+                tooltipRef.current.style.left = `${point.x}px`;
+                tooltipRef.current.style.top = `${point.y}px`;
+            }
+        };
+        const handleUnclusteredMouseLeave = () => {
+            if (window.innerWidth <= 768) return;
+            map.current.getCanvas().style.cursor = '';
+            if (tooltipRef.current) tooltipRef.current.style.opacity = '0';
+        };
+
+        layerHandlersRef.current = { unclusteredMouseEnter: handleUnclusteredMouseEnter, unclusteredMouseLeave: handleUnclusteredMouseLeave };
+        map.current.on('mouseenter', 'unclustered-point', handleUnclusteredMouseEnter);
+        map.current.on('mouseleave', 'unclustered-point', handleUnclusteredMouseLeave);
+
         // Ensure cluster layers are at the top
         if (map.current.getLayer('unclustered-point')) map.current.moveLayer('unclustered-point');
         if (map.current.getLayer('clusters')) map.current.moveLayer('clusters');
@@ -274,7 +310,7 @@ const Map = forwardRef(({
 
         map.current = new maplibregl.Map({
             container: mapContainer.current,
-            style: theme === 'dark' ? DARK_STYLE : MAP_CONFIG.style,
+            style: theme === 'dark' ? MAP_CONFIG.darkStyle : MAP_CONFIG.style,
             center: MAP_CONFIG.startCenter,
             zoom: MAP_CONFIG.initialZoom,
             minZoom: 14.5,
@@ -312,6 +348,26 @@ const Map = forwardRef(({
                 }
 
                 el.addEventListener('click', () => onSelectRecord(record));
+
+                // Add Hover Listeners for Tooltip
+                if (window.matchMedia('(hover: hover)').matches) {
+                    el.addEventListener('mouseenter', () => {
+                        if (window.innerWidth <= 768) return;
+                        if (tooltipRef.current) {
+                            tooltipRef.current.innerText = record.title;
+                            tooltipRef.current.style.opacity = '1';
+                            const rect = el.getBoundingClientRect();
+                            tooltipRef.current.style.left = `${rect.left + rect.width / 2}px`;
+                            tooltipRef.current.style.top = `${rect.top}px`;
+                        }
+                    });
+                    el.addEventListener('mouseleave', () => {
+                        if (tooltipRef.current) {
+                            tooltipRef.current.style.opacity = '0';
+                        }
+                    });
+                }
+
                 const marker = new maplibregl.Marker({ element: el }).setLngLat(record.location.center).addTo(map.current);
                 markersRef.current[record.id] = { marker, element: el, record, categories };
             });
@@ -396,7 +452,7 @@ const Map = forwardRef(({
         if (prevTheme.current === theme) return;
         prevTheme.current = theme;
 
-        const newStyle = theme === 'dark' ? DARK_STYLE : MAP_CONFIG.style;
+        const newStyle = theme === 'dark' ? MAP_CONFIG.darkStyle : MAP_CONFIG.style;
         map.current.setStyle(newStyle);
 
         const onStyleData = () => {
@@ -417,7 +473,11 @@ const Map = forwardRef(({
     useEffect(() => {
         if (!map.current || !isLoaded) return;
         if (is1883Mode && !prevIs1883Mode.current) {
-            map.current.fitBounds([[72.8228, 18.9235], [72.8492, 18.9435]], { padding: 100, pitch: 0, bearing: 0 });
+            map.current.fitBounds([[72.8228, 18.9235], [72.8492, 18.9435]], {
+                padding: isMobile ? 40 : 100,
+                pitch: 0,
+                bearing: 0
+            });
         }
         prevIs1883Mode.current = is1883Mode;
     }, [is1883Mode, isLoaded]);
@@ -426,7 +486,12 @@ const Map = forwardRef(({
     useEffect(() => {
         if (!map.current || !isLoaded) return;
         if (isFortWallVisible && !prevIsFortWallVisible.current) {
-            map.current.fitBounds([[72.8312, 18.9265], [72.8342, 18.9278]], { padding: 150, pitch: 45, bearing: -15, duration: 2000 });
+            map.current.fitBounds([[72.8312, 18.9265], [72.8342, 18.9278]], {
+                padding: isMobile ? 60 : 150,
+                pitch: 45,
+                bearing: -15,
+                duration: 2000
+            });
         }
         prevIsFortWallVisible.current = isFortWallVisible;
     }, [isFortWallVisible, isLoaded]);
@@ -487,6 +552,7 @@ const Map = forwardRef(({
         <>
             <div className="map-wrapper" style={{ width: '100%', height: '100vh', position: 'fixed', top: 0, left: 0, zIndex: 1 }}>
                 <div ref={mapContainer} id="map" style={{ width: '100%', height: '100%' }} />
+                <div id="tooltip" ref={tooltipRef}></div>
             </div>
 
             {/* Floating Marker for Desktop - sits ABOVE the map-wrapper's z-index context */}
